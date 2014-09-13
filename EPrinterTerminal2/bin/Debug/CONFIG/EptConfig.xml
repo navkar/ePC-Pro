@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<Configuration>
+      <EPTHostIp>192.168.144.247</EPTHostIp>
+      <HostName>localhost</HostName>
+      <EPTPortNo>55555</EPTPortNo>
+      <PortNo>80</PortNo>
+      <PrinterId>WIPRO_106</PrinterId>
+      <AreaCode>WIPRO</AreaCode>
+</Configuration>

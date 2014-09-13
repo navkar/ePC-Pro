@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintConsoleApp", "PrintConsoleApp.csproj", "{10D341E6-D125-4F3D-BDD3-8A31F16F9652}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{10D341E6-D125-4F3D-BDD3-8A31F16F9652}.Debug.ActiveCfg = Debug|.NET
+		{10D341E6-D125-4F3D-BDD3-8A31F16F9652}.Debug.Build.0 = Debug|.NET
+		{10D341E6-D125-4F3D-BDD3-8A31F16F9652}.Release.ActiveCfg = Release|.NET
+		{10D341E6-D125-4F3D-BDD3-8A31F16F9652}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

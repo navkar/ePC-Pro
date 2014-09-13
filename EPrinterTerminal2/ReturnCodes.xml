@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" ?>
+<ReturnCodes">
+	<RC200>OK </RC200>
+	<RC300>Invalid XML format </RC300>
+	<RC301>Invalid Request type. </RC301>
+	<RC302>Invalid Printer id. </RC302>
+	<RC303>Invalid Printer capability. </RC303>
+	<RC304>Invalid Paper information.</RC304>
+	<RC305>Invalid Job information.</RC305>
+	<RC306>Invalid File information.</RC306>
+	<RC307>Invalid Printer status information. </RC307>
+	<RC401>RPR reply message not found. </RC401>
+	<RC402>DPR reply message not found. </RC402>
+	<RC403>Unable to process new job. </RC403>
+	<RC404>Print Job Cancelled.</RC404>
+	<RC500>EAS internal server error.</RC500>
+	<RC911>Connection to EAS failed.</RC911>
+</ReturnCodes>

@@ -1,0 +1,114 @@
+<%@ Page Language="C#" %>
+<% @Import Namespace="System.IO" %>
+
+<html>
+<!-- Author: Naveen Karamchetti
+	 Description: Displays the main document selection page.
+ -->
+ 
+
+	<head>
+		<title>EPSON iPrint Service</title>
+	</head>
+	<body>
+		<form id="iDOC" runat="server">
+			<table border="0" bgcolor="#ccccff" CellPadding="2" CellSpacing="0" Width="100%">
+				<tr>
+					<td align="center">
+						<asp:label runat="server" id="lblTitle" Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" />
+					</td>
+				</tr>
+				<tr bgcolor="white">
+					<td>&nbsp;
+					</td>
+				</tr>
+				<tr bgcolor="white">
+					<td align="center">
+						<asp:label runat="server" id="lblMessage" Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" />
+					</td>
+				</tr>
+			</table>
+			<BR>
+			<div align="center">
+				<asp:RadioButtonList AutoPostBack="False" ID="listFiles" Runat="server" CellPadding="2" CellSpacing="0" RepeatDirection="Vertical" RepeatColumns="2" RepeatLayout="Table" Font-Name="Verdana" Font-Size="9pt" Font-Bold="true" BackColor="Beige" BorderWidth="2" ForeColor="DarkSlateBlue" BorderStyle="Solid" BorderColor="Tan"></asp:RadioButtonList>
+				<BR>
+				<asp:label Text="Specify Copies:" runat="server" id="lblCopies" Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller"/>
+				<asp:DropDownList id="NoOfCopies"  runat="server" AutoPostBack=False>
+				</asp:DropDownList>
+				<BR>
+				<BR>
+					<input type="SUBMIT" value="Print Document" runat=server>
+				<BR>
+				<BR>
+				<table border="0" CellPadding="2" CellSpacing="0" Width="100%">
+					<tr>
+						<td align="Left" bgcolor="#ccccff">
+							<asp:label runat="server" id="lblSubTitle" Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<asp:HyperLink runat="server" id="docLink" Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" NavigateUrl="ijob.aspx" Text="iPrint Job Box Page" />
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</body>
+</html>
+<script language="C#" runat="server">
+
+ 	protected override void OnLoad( EventArgs e)
+	{
+		// If the Form is loaded for the first time.
+		if ( !Page.IsPostBack )
+		{
+			lblTitle.Text = "EPSON iPrint Service";
+			lblMessage.Text = "Select a document to print...";
+			lblSubTitle.Text = "Quick Links";
+				
+            //--------   No of copies in the drop down list
+            int iMaxCopies = Int32.Parse(ConfigurationSettings.AppSettings["max_copies"]);
+           
+            ArrayList copiesList =  new ArrayList();
+           
+			for ( int iCnt = 0; iCnt < iMaxCopies ; iCnt++)
+			{
+				copiesList.Add ((iCnt + 1).ToString() );
+			}
+			
+			NoOfCopies.DataSource = copiesList;
+			NoOfCopies.DataBind();
+			
+			//----------- The shared directory to pick up the files from...
+			string strDirectory = ConfigurationSettings.AppSettings["shared_directory"];
+		
+			DirectoryInfo dirInfo = new DirectoryInfo(strDirectory);
+			FileInfo[] fileInfo = dirInfo.GetFiles(); 
+			
+			listFiles.Items.Clear();
+			
+			for (int iCnt = 0 ; iCnt < fileInfo.Length; iCnt++)
+			{      
+				listFiles.Items.Add( fileInfo[iCnt].Name );
+			}   
+ 			
+			// the first item is selected.
+			if (fileInfo.Length > 0)
+			{
+				listFiles.SelectedIndex = 0;
+			}
+			else
+			{
+				Response.Write("No file(s) found in the directory: " + strDirectory);
+			}
+		}
+		else
+		{
+				Session["printFile"] = Request["listFiles"];
+				Session["NoOfCopies"] = Request["NoOfCopies"];
+				Server.Transfer("iDoc.aspx");			
+		}
+	}
+
+</script>

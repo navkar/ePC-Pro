@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<Configuration>
+      <HostName>localhost</HostName>
+      <EPTPortNo>55555</EPTPortNo>
+      <PortNo>80</PortNo>
+      <AreaCode>WIPRO</AreaCode>
+</Configuration>

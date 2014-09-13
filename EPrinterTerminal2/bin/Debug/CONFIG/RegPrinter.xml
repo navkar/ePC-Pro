@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<PrinterTerminal>
+<Request>RPR</Request>
+<PrinterId></PrinterId>
+<PrinterCap manufacturer="Printer 2" model="Fresh Printer " type="0" color="0" duplex="0">
+<PaperInfo size="A4" width="80" height="118"/>
+</PrinterCap>
+<EPTHostIp>192.168.144.247</EPTHostIp>
+<EPTPortNo>55555</EPTPortNo>
+<AreaCode>WIPRO</AreaCode>
+</PrinterTerminal>

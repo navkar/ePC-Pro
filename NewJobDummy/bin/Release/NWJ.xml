@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes" ?>
+<PrintServer>
+<Request>NWJ</Request>
+<PrinterId>PUN_101</PrinterId>
+<JobInfo jobId="99999" cost="100" copies="2" />
+<FileInfo name="atm.pdf" size="1948318" />
+<EPTHostIp>localhost</EPTHostIp>
+<EPTPortNo>55555</EPTPortNo>
+</PrintServer>

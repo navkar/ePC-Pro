@@ -1,0 +1,185 @@
+<%@ Page Language="C#" %>
+<% @Import Namespace="System.Data" %>
+<% @Import Namespace="System.IO" %>
+<% @Import Namespace="System.Data.SqlClient" %>
+<% @Import Namespace="EAppService" %>
+
+<html>
+	<head>
+		<title>EPSON iPrint Service</title>
+	</head>
+	<body >
+
+		<table border=0 bgcolor="#ccccff" CellPadding="2" CellSpacing="0" Width="100%">
+			<tr><td align="center">
+			<asp:label HorizontalAlign="Center" runat="server" id="lblTitle"
+				Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" />
+			</td></tr>
+			<tr bgcolor="white">
+				<td>&nbsp;
+				</td>
+			</tr>
+			<tr bgcolor="white">
+			<td align="center">
+			<asp:label HorizontalAlign="Center" runat="server" id="lblMessage"
+				Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" />
+			</td></tr>
+			</table>
+
+
+	<form runat="server">
+	<div align="center">
+	<table border="0" bgcolor="#ccffee" CellPadding="2" CellSpacing="0" Width="90%" >
+	<tr><td align="center">
+	<asp:label HorizontalAlign="Left" runat="server" id="lblTitle2"
+			Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" />
+	</td></tr>
+	</table>
+
+	<asp:DataGrid id="jobsGrid" runat="server"
+    	AutoGenerateColumns="false"
+		BackColor="White"
+	    BorderWidth="1px" BorderStyle="Solid" BorderColor="Tan"
+    	CellPadding="2" CellSpacing="0"	Width="90%"
+	    Font-Name="Verdana" Font-Size="9pt"
+		HorizontalAlign="Center"
+		AllowSorting="false"
+		AllowPaging="true" PageSize="7"
+		OnItemCommand="CancelPrintCommand"
+	    OnPageIndexChanged="OnPageIndexChangedPrintersGrid">
+	    
+    <SelectedItemStyle BackColor="PaleGoldenRod" Font-Bold="true"/>
+  	<HeaderStyle BackColor="DarkRed" ForeColor="White" Font-Bold="true"/>
+    <AlternatingItemStyle BackColor="Beige"/>
+    <ItemStyle ForeColor="DarkSlateBlue"/>
+   
+	<PagerStyle Mode="NextPrev" HorizontalAlign="Left"
+				ForeColor="White" BackColor="Tan" 
+				NextPageText="Next Page >>" PrevPageText="<< Prev. Page">
+   	</PagerStyle> 
+
+   	<Columns>
+
+		<asp:BoundColumn HeaderText="Job File Name" DataField="job_filename"/> 
+		<asp:BoundColumn DataFormatString="{0:dd-MMM-yy H:mm:ss }" 
+		HeaderText="Created at" DataField="job_date"/> 
+	    <asp:BoundColumn HeaderText="Copies" DataField="copies"/> 	
+	    <asp:BoundColumn HeaderText="Job Id" DataField="job_id"/> 	
+		<asp:BoundColumn HeaderText="Status" DataField="job_status" /> 
+	    <asp:BoundColumn HeaderText="Location" DataField="area_code"/> 
+	    <asp:BoundColumn HeaderText="Printer Id" DataField="printer_id"/> 
+	    <asp:ButtonColumn CommandName="CancelPrintJob" ButtonType="LinkButton"
+           HeaderText="Cancel Job" Text="Cancel" Visible="True"/>
+
+  
+   	</Columns>
+
+	</asp:DataGrid>
+
+	<table border=0 CellPadding="2" CellSpacing="0" Width="90%">
+	<tr><td>
+	<asp:label HorizontalAlign="Left" runat="server" id="lblNavigation"
+			Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" />
+	</td></tr>
+	<tr><td align="Center">
+	<asp:button Text="Refresh" runat="server" id="btnRefresh"
+			Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" />
+	</td></tr>
+	</table>
+	<BR><BR>
+	<table border="0" CellPadding="2" CellSpacing="0" Width="100%">
+	<tr>
+		<td align="Left" bgcolor="#ccccff">
+			<asp:label HorizontalAlign="Center" runat="server" id="lblSubTitle"
+			Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<asp:HyperLink HorizontalAlign="Center" runat="server" id="docLink"
+			Font-Name="Verdana" Font-Italic="false" Font-Size="Smaller" 
+		    NavigateUrl="iprint.aspx" Text="iPrint Document Page"/>
+		</td>
+   	</tr>
+	</table>
+	</div>	
+	
+	</form>
+	</body>
+	</html>
+
+<script language="C#" runat="server">
+
+	protected void OnPageIndexChangedPrintersGrid(object sender, DataGridPageChangedEventArgs e)
+	{
+		jobsGrid.CurrentPageIndex = e.NewPageIndex;
+		bindData();
+	}
+
+	void CancelPrintCommand(Object sender, DataGridCommandEventArgs e) 
+	{
+		try
+		{
+				TableCell jobIdCell = e.Item.Cells[3];
+
+				string strDBUrl =
+				ConfigurationSettings.AppSettings["database_url"];
+
+				// Change the Job status value to '3', If necessary, to support cancellation.
+				string strSQL 
+				= "update jobinfo set job_status = '5' where job_id = '" +
+				  jobIdCell.Text +"' and job_status in ('2', '4')";
+
+				SqlConnection sqlConn = new SqlConnection(strDBUrl);
+				sqlConn.Open();
+
+				SqlCommand sqlCmd = new SqlCommand(strSQL, sqlConn);
+				sqlCmd.ExecuteReader();
+
+				sqlConn.Close();
+		}
+		catch
+		{
+				// bindata will handle the errors.
+		}
+
+		bindData();
+	}
+
+	public void Page_Load( Object source, EventArgs e)
+	{
+		lblTitle.Text = "EPSON iPrint Service";
+		lblSubTitle.Text = "Quick Links";
+		lblTitle2.Text = "iPrint Job Box";
+		lblMessage.Text = "";
+
+		bindData();
+
+	}
+
+	
+	private void bindData()
+	{
+		try
+		{
+				string strDBUrl = ConfigurationSettings.AppSettings["database_url"];
+
+				SqlConnection conn = new SqlConnection(strDBUrl);
+//				SqlDataAdapter dataAdapt 
+//				= new SqlDataAdapter("delete from printer where printer_guid = 'c793d9b0-23f7-4c04-b2c9-4a0c733e21aa'", conn);
+//				SqlDataAdapter dataAdapt 
+//					= new SqlDataAdapter("delete from jobinfo where printer_id = '103'", conn);
+//				SqlDataAdapter dataAdapt 
+//					= new SqlDataAdapter("delete from paperinfo where printer_id = '103'", conn);
+//				DataSet ds = new DataSet();
+//				dataAdapt.Fill(ds, "jobinfo");
+
+		  }
+		  catch(Exception e)
+		  {
+				lblNavigation.Text = e.ToString();
+		  }
+	}
+</script>
+
+

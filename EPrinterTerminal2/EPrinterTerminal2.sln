@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPrinterTerminal2", "EPrinterTerminal2.csproj", "{1E822A44-99CE-4016-AD76-07FB7AF24545}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{1E822A44-99CE-4016-AD76-07FB7AF24545}.Debug.ActiveCfg = Debug|.NET
+		{1E822A44-99CE-4016-AD76-07FB7AF24545}.Debug.Build.0 = Debug|.NET
+		{1E822A44-99CE-4016-AD76-07FB7AF24545}.Release.ActiveCfg = Release|.NET
+		{1E822A44-99CE-4016-AD76-07FB7AF24545}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

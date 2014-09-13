@@ -1,0 +1,16 @@
+﻿# EAS Return Codes
+200 = OK.
+300 = Invalid XML format.
+301 = Invalid Request type.
+302 = Invalid Printer id.
+303 = Invalid Printer capability. 
+304 = Invalid Paper information.
+305 = Invalid Job information.
+306 = Invalid File information.
+307 = Invalid Printer status information.
+401 = Unable to Register the printer.
+402 = Unable to Delete the printer.
+404 = Print Job was cancelled.
+500 = EAS Internal Server Error.
+911 = Connection to EAS Failed.
+
